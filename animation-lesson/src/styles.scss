@@ -23,7 +23,7 @@ body {
     }
     .circle:nth-child(#{$index}) {
         transform: translate((random(100) * 1vw), (random(100) * 1vh));
-        animation: moving-circle-#{$index} 60s infinite linear;
+        animation: moving-circle-#{$index} 10s infinite linear;
         animation-delay: -$index * 0.005s;
     }
 }
