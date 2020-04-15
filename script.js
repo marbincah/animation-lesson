@@ -36,13 +36,26 @@ const context = canvas.getContext('2d');
 //     context.stroke()
 // }
 
+const mouse = {
+    x: undefined,
+    y: undefined,
+}
+
+window.addEventListener('mousemove', function(event) {
+    mouse.x = event.x;
+    mouse.y = event.y;
+})
+
 //function to draw and move circle
-function Circle(x, y, radius, dx, dy) {
+function Circle(x, y, radius, dx, dy, minRadius, maxRadius, dist) {
     this.x = x;
     this.y = y;
     this.radius = radius;
     this.dx = dx;
     this.dy = dy;
+    this.minRadius = minRadius;
+    this.maxRadius = maxRadius;
+    this.dist = dist;
 
     this.draw = function() {
         context.beginPath();
@@ -64,6 +77,14 @@ function Circle(x, y, radius, dx, dy) {
         this.x += this.dx;
         this.y += this.dy;
 
+        // iteractivity
+        // find distance mouse position and circle
+        if (mouse.x - this.x < this.dist && mouse.x - this.x > -this.dist && mouse.y - this.y < this.dist && mouse.y - this.y > -this.dist && this.radius < maxRadius) {
+            this.radius += 1
+        } else if (this.radius > minRadius) {
+            this.radius -= 1
+        }
+
         this.draw();
     }
 }
@@ -74,8 +95,11 @@ for (let i = 0; i < 50; i++) {
     let y = Math.random() * window.innerHeight;
     let dx = Math.random() - 0.5;
     let dy = Math.random() - 0.5;
-    const radius = 10
-    Circles.push(new Circle(x, y, radius, dx, dy))
+    const radius = 10;
+    const minRadius = 10;
+    const maxRadius = 20;
+    const dist = 50;
+    Circles.push(new Circle(x, y, radius, dx, dy, minRadius, maxRadius, dist))
 }
 
 for (let i = 0; i < 50; i++) {
